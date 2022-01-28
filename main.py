@@ -3,21 +3,10 @@ import os
 import requests
 import json
 import random
+from replit import db
+from keep_alive import keep_alive
 
 client = discord.Client()
-
-sad_words = ["ach", "Nein"]
-
-starter_encouragements = [
-  "Du schaffst das!!",
-  "Hallo, komm das geht schon."
-]
-
-def get_quote():
-  response = requests.get("https://zenquotes.io/api/random")
-  json_data = json.loads(response.text)
-  quote = json_data[0]['q'] + " -" + json_data[0]['a']
-  return(quote)
 
 @client.event
 async def on_ready():
@@ -30,14 +19,21 @@ async def on_message(message):
 
   msg = message.content
 
-  if msg.content.startswith('hallo'):
-    await message.channel.send('Hallo Lino')
+  if msg.startswith('Hallo'):
+    await message.channel.send("Halihalo")
 
-  if msg.content.startswith('$inspire'):
-    quote = get_quote
-    await message.channel.send(quote)
+  if msg.startswith('Hoi'):
+    await message.channel.send("Hoi was machsch?")
 
-  if any(word in msg for word in sad_words):
-    await message.channel.send(random.choice(starter_encouragements))
+  if msg.startswith('Salü'):
+    await message.channel.send("Bonjour, c'est le bot et je peux parler français. que fais-tu dans la vie ?")
 
-client.run(os.getenv("TOKEN"))
+  if msg.startswith('Salut'):
+    await message.channel.send("Hallo, hier was zum singen --> https://youtu.be/9Pi--KQUzqI")
+
+  if msg.startswith('Hilfe'):
+    await message.channel.send("Du brauchts Hilfe? Der Bot ist ganz einfach. Er kann nur Halihalo sagen. \r\n"
+    "Wenn du hallo schreibst, schreibt der Bot Halihalo.")
+
+keep_alive()
+client.run(os.getenv('TOKEN'))
